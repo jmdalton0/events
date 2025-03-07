@@ -1,0 +1,1 @@
+'UNION SELECT id, username, password, '2025-10-06 00:00:00.00', 'a', 'a' FROM users WHERE '%' LIKE '
