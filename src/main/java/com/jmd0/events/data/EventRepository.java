@@ -76,10 +76,8 @@ public class EventRepository implements EventRepositoryInterface {
 
     @Override
     public List<EventEntity> findByDescription(String description) { 
-        String sql = "SELECT * FROM events WHERE description LIKE '%' ? '%'";
-        Object[] params = {description};
-        int[] types = {java.sql.Types.VARCHAR};
-        return jdbcTemplate.query(sql, params, types, new EventModelRowMapper());
+        String sql = "SELECT * FROM events WHERE description LIKE '%" + description + "%'";
+        return jdbcTemplate.query(sql, new EventModelRowMapper());
     }
 
     private static class EventModelRowMapper implements RowMapper<EventEntity> {
