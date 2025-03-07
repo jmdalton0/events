@@ -63,7 +63,7 @@ public class UserRepository implements UserRepositoryInterface {
             }
 
             String sql = "INSERT INTO users (username, password, enabled, account_non_expired, credentials_non_expired, account_non_locked)" + 
-                "VALUES ('?', '?', '?', '?', '?', '?')";
+                "VALUES (?, ?, ?, ?, ?, ?)";
             Object[] params = {
                 userEntity.getusername(),
                 userEntity.getPassword(),
@@ -80,17 +80,17 @@ public class UserRepository implements UserRepositoryInterface {
                 java.sql.Types.TINYINT,
                 java.sql.Types.TINYINT
             };
-            jdbcTemplate.update(sql);
-            Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", params, types, Long.class);
+            jdbcTemplate.update(sql, params, types);
+            Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
             userEntity.setId(id);
         } else {
-            String sql = "UPDATE users SET username = '?'," +
-                    "password = '?'," +
-                    "enabled = '?'," +
-                    "account_non_expired = '?'," +
-                    "credentials_non_expired = '?'" +
-                    "account_non_locked = '?'" +
-                    " WHERE id = '?'";
+            String sql = "UPDATE users SET username = ?," +
+                    "password = ?," +
+                    "enabled = ?," +
+                    "account_non_expired = ?," +
+                    "credentials_non_expired = ?" +
+                    "account_non_locked = ?" +
+                    " WHERE id = ?";
             Object[] params = {
                 userEntity.getusername(),
                 userEntity.getPassword(),
